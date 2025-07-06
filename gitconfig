@@ -1,0 +1,7 @@
+[user]
+	name = tin3ga
+	email = 118301331+tin3ga@users.noreply.github.com
+[commit]
+	gpgsign = true
+[credential]
+	helper = store
