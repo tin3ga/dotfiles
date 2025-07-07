@@ -1,0 +1,35 @@
+#!/bin/bash
+
+FMT_BLUE=$(printf '\033[34m')
+FMT_BOLD=$(printf '\033[1m')
+FMT_RESET=$(printf '\033[0m')
+
+pkgs=(
+    git
+    curl
+    zsh
+    tmux
+)
+
+available(){
+    command -v "${1}" > /dev/null;
+}
+
+
+echo "${FMT_BLUE}Installing packages...${FMT_RESET}"
+
+if available apt-get
+then
+    sudo apt-get -y --ignore-missing install "${pkgs[@]}" 
+
+elif available dnf 
+then
+    sudo dnf install -y "${pkgs[@]}" 
+fi
+
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+
+
+

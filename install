@@ -1,0 +1,45 @@
+#!/bin/bash
+
+FMT_BLUE=$(printf '\033[34m')
+FMT_BOLD=$(printf '\033[1m')
+FMT_RESET=$(printf '\033[0m')
+
+
+dotfiles=(
+    gitconfig
+    tmux.conf
+    zshrc
+)
+
+# create links
+symlink(){
+    printf '%s -> %s\n' "${1}" "${2}"
+    ln -nsf "$@"
+}
+
+
+echo "${FMT_BLUE}Setting up Oh My Zsh plugins...${FMT_RESET}"
+sudo git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+sudo git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+sudo git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
+
+echo "${FMT_BLUE}Installing TMUX Plugin Manager..${FMT_RESET}"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+
+
+echo "${FMT_BLUE}Linking Files..${FMT_RESET}"
+for f in "${dotfiles[@]}"
+do  
+    # if target file is a dir and not a symlink, create a backup file and delete original file
+    [[ -d ~/.$f && ! -L ~/.$f ]] && cp ~/.$f ~/.$f.bak && rm -r ~/.$f
+    symlink "$PWD/$f" ~/."$f"
+
+done
+
+echo "Setup Completed Successfully!"
+
+
+
+
