@@ -6,6 +6,7 @@ FMT_RESET=$(printf '\033[0m')
 
 
 dotfiles=(
+    gitconfig-gitlab
     gitconfig
     tmux.conf
     zshrc

@@ -1,0 +1,7 @@
+
+[user]
+	name = tin3ga
+	email = 23497758-tin3ga@users.noreply.gitlab.com
+
+[commit]
+	gpgsign = true
