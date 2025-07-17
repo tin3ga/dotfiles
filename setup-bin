@@ -1,0 +1,31 @@
+#!/bin/bash
+
+FMT_BLUE=$(printf '\033[34m')
+FMT_BOLD=$(printf '\033[1m')
+FMT_RESET=$(printf '\033[0m')
+
+BIN_DIR="$HOME/.bin"
+
+BINARIES=(
+    bakup
+    weather
+)
+
+BASE_URL="https://gitlab.com/tin3ga/bin/-/raw/main/"
+
+# make a .bin directory to store custom binaries
+mkdir -p "$BIN_DIR"
+
+# download binaries save them to .bin directory
+echo "${FMT_BLUE}Downloading binaries...${FMT_RESET}"
+
+for binary in "${BINARIES[@]}"
+do
+    curl -Os "$BASE_URL""$binary" --output-dir "$BIN_DIR"
+    chmod +x "$BIN_DIR"/"$binary"
+done
+
+
+echo "Downloading Binaries completed successfully!"
+
+

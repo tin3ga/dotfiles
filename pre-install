@@ -9,6 +9,9 @@ pkgs=(
     curl
     zsh
     tmux
+    ncdu
+    bat
+    htop
 )
 
 available(){
