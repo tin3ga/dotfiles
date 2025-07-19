@@ -27,7 +27,7 @@ then
 
 elif available dnf 
 then
-    sudo dnf install -y "${pkgs[@]}" 
+    sudo dnf install --skip-unavailable -y "${pkgs[@]}" 
 fi
 
 
