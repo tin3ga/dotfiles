@@ -16,10 +16,11 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/.bin
 
 # aliases
+alias p="cd ~/projects"
 alias checkip='curl wtfismyip.com/yaml'
 alias c=clear
 
-# Git Aliases
+# Git aliases
 alias ga='git add . --all'
 alias gb='git branch'
 alias gc='git clone'
@@ -28,3 +29,9 @@ alias gco='git checkout'
 alias gi='git init'
 alias gl='git log'
 alias gs='git status'
+
+# kubectl shell autocompletion
+source <(kubectl completion zsh)
+
+# kubectl aliases
+alias k=kubectl

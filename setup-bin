@@ -6,15 +6,19 @@ FMT_RESET=$(printf '\033[0m')
 
 BIN_DIR="$HOME/.bin"
 
+LOCAL_BIN_DIR="$HOME/.local/bin"
+
 BINARIES=(
     bakup
     weather
+    mkvmd
 )
 
 BASE_URL="https://gitlab.com/tin3ga/bin/-/raw/main/"
 
-# make a .bin directory to store custom binaries
+# make a .bin directory and a .local/bin directory to store binaries
 mkdir -p "$BIN_DIR"
+mkdir -p "$LOCAL_BIN_DIR"
 
 # download binaries save them to .bin directory
 echo "${FMT_BLUE}Downloading binaries...${FMT_RESET}"
@@ -28,4 +32,11 @@ done
 
 echo "Downloading Binaries completed successfully!"
 
+# download kubectl - saves binary in .local.bin directory
+echo "${FMT_BLUE}Downloading kubectl binary...${FMT_RESET}"
+curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" --output-dir "$LOCAL_BIN_DIR"
+
+chmod +x "$LOCAL_BIN_DIR"/kubectl
+
+echo "Kubectl Binary downloaded successfully!"
 
