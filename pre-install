@@ -1,8 +1,6 @@
 #!/bin/bash
 
-FMT_BLUE=$(printf '\033[34m')
-FMT_BOLD=$(printf '\033[1m')
-FMT_RESET=$(printf '\033[0m')
+
 
 pkgs=(
     git
@@ -19,7 +17,7 @@ available(){
 }
 
 
-echo "${FMT_BLUE}Installing packages...${FMT_RESET}"
+echo -e "\e[32m[➤] Installing packages...\e[0m"
 
 if available apt-get
 then
@@ -30,8 +28,16 @@ then
     sudo dnf install --skip-unavailable -y "${pkgs[@]}" 
 fi
 
+echo -e "\e[32m[✓] Package installation Completed Successfully!\e[0m"
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+if [[ -d "$HOME/.oh-my-zsh" ]]
+then
+    echo -e "\e[32m[✓] Oh My Zsh already installed.\e[0m"
+else
+    echo -e "\e[32m[➤] Installing Oh My Zsh (non-interactive)...\e[0m"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended --keep-zshrc
+    echo -e "\e[32m[✓] Oh My Zsh installed successfully!\e[0m"
+fi
 
 
 

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-FMT_BLUE=$(printf '\033[34m')
-FMT_BOLD=$(printf '\033[1m')
-FMT_RESET=$(printf '\033[0m')
 
 BIN_DIR="$HOME/.bin"
 
@@ -21,22 +18,25 @@ mkdir -p "$BIN_DIR"
 mkdir -p "$LOCAL_BIN_DIR"
 
 # download binaries save them to .bin directory
-echo "${FMT_BLUE}Downloading binaries...${FMT_RESET}"
+echo -e "\e[32m[➤] Downloading binaries...\e[0m"
 
 for binary in "${BINARIES[@]}"
 do
     curl -Os "$BASE_URL""$binary" --output-dir "$BIN_DIR"
     chmod +x "$BIN_DIR"/"$binary"
+    echo "$binary downloaded successfully!"
 done
 
 
-echo "Downloading Binaries completed successfully!"
-
 # download kubectl - saves binary in .local.bin directory
-echo "${FMT_BLUE}Downloading kubectl binary...${FMT_RESET}"
-curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" --output-dir "$LOCAL_BIN_DIR"
 
-chmod +x "$LOCAL_BIN_DIR"/kubectl
+if [[ -a "$LOCAL_BIN_DIR/kubectl" ]]
+then
+    echo -e "\e[32m[✓] Kubectl Binary already downloaded!\e[0m" 
+else
+    echo -e "\e[32m[➤] Downloading kubectl binary...\e[0m"
+    curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" --output-dir "$LOCAL_BIN_DIR"
 
-echo "Kubectl Binary downloaded successfully!"
-
+    chmod +x "$LOCAL_BIN_DIR"/kubectl
+    echo -e "\e[32m[✓] Kubectl Binary downloaded successfully!\e[0m"
+fi

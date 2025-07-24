@@ -1,9 +1,5 @@
 #!/bin/bash
 
-FMT_BLUE=$(printf '\033[34m')
-FMT_BOLD=$(printf '\033[1m')
-FMT_RESET=$(printf '\033[0m')
-
 
 dotfiles=(
     gitconfig-gitlab
@@ -19,18 +15,40 @@ symlink(){
 }
 
 
-echo "${FMT_BLUE}Setting up Oh My Zsh plugins...${FMT_RESET}"
-sudo git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-sudo git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-sudo git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
+echo -e "\e[32m[➤] Setting up Oh My Zsh plugins...\e[0m"
+ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
-echo "${FMT_BLUE}Installing TMUX Plugin Manager..${FMT_RESET}"
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+declare -A plugins=(
+    [zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions.git"
+    [zsh-syntax-highlighting]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    [fast-syntax-highlighting]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+    [zsh-autocomplete]="https://github.com/marlonrichert/zsh-autocomplete.git"
+)
+
+for plugin in "${!plugins[@]}"
+do 
+    dest="$ZSH_CUSTOM/plugins/$plugin"
+    if [[ -d "$dest" ]]
+    then
+        echo "$plugin already installed!"
+    else
+        sudo git clone --depth 1 "${plugins[$plugin]}" "$dest" # only download the latest commit of the repository’s history.
+        echo "$plugin installed successfully!"
+    fi
+done
+
+echo -e "\e[32m[➤] Installing TMUX Plugin Manager...\e[0m"
+
+if [[ -d "$HOME/.tmux/plugins/tpm" ]]
+then
+    echo -e "\e[32m[✓] TMUX Plugin Manager already installed!\e[0m"
+else
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo -e "\e[32m[✓] TMUX Plugin Manager installed successfully!\e[0m"
+fi
 
 
-
-echo "${FMT_BLUE}Linking Files..${FMT_RESET}"
+echo -e "\e[32m[➤] Linking Files...\e[0m"
 for f in "${dotfiles[@]}"
 do  
     # if target file is a dir and not a symlink, create a backup file and delete original file
@@ -39,7 +57,7 @@ do
 
 done
 
-echo "Setup Completed Successfully!"
+echo -e "\e[32m[✓] Setup Completed Successfully!\e[0m"
 
 
 
