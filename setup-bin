@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 BIN_DIR="$HOME/.bin"
@@ -9,6 +9,7 @@ BINARIES=(
     bakup
     weather
     mkvmd
+    ipfetch
 )
 
 BASE_URL="https://gitlab.com/tin3ga/bin/-/raw/main/"

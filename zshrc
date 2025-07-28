@@ -15,6 +15,9 @@ export PATH=$PATH:~/.local/bin
 # bin 
 export PATH=$PATH:~/.bin
 
+# Golang binaries
+export PATH=$PATH:~/go/bin/
+
 # aliases
 alias p="cd ~/projects"
 alias checkip='curl wtfismyip.com/yaml'
